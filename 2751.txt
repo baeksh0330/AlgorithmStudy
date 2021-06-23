@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+		
+public class Main { 
+	
+	public static void main(String[] args) { //오름차순 정렬
+		
+	int n;
+		Scanner sc= new Scanner(System.in);
+		n=sc.nextInt();
+		int[] arr= new int[n];
+		
+		for(int i=0; i<n; i++)
+		{
+			arr[i]=sc.nextInt();
+		}
+	
+		
+		
+1		int temp;
+		
+		for(int i=0; i<arr.length-1; i++) //selection sort
+		{	
+			int min=i;	
+			
+			for(int j=i+1; j<arr.length; j++)
+			{
+				if(arr[j]<arr[min])
+					min=j;
+			} //find minimum in last 
+			
+			if(arr[i]>arr[min])
+			{		
+				temp=arr[i];
+				arr[i]=arr[min];
+				arr[min]=temp;
+			}
+		}
+			
+		
+		for(int p : arr)
+		{
+			System.out.println(p);
+	    }	
+		
+	}
+
+
+	
+}
+
