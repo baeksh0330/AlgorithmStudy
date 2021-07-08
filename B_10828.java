@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+
+
+public class B_10828 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+=======
 package AlgorithmStudy;
 import java.util.Scanner;
 
@@ -90,4 +101,5 @@ public class B_10828 {
 			return;			
 	}
 	
+>>>>>>> 9071909db84928c3805107545d700f512d65058a
 }
