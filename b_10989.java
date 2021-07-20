@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
-package AlgorithmStudy;
->>>>>>> 6cadebb824aeff718444b00667acabdbff0e1e91
+
 import java.util.*;
 public class b_10989 {
 
