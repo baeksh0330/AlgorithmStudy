@@ -1,0 +1,149 @@
+//202035524 Baek song hee
+//Algorithm - flip pancake
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#define MAX 30
+#define _CRT_SECURE_NO_WARNINGS
+#define fileName "input.txt"
+
+int fileFlag = 0;
+int flipIndex = 0, flipCnt[MAX];
+void flip(int*, int);
+//void make_pancakeStack(int *);
+
+void printResult(int*, int*, int);
+void pancakeSorting(int*, int);
+
+int main(void) //따악 한줄만 받아오는걸 목표로 하자.
+{
+	/*
+	1. 파일에서 한줄씩 읽어와서 그걸 배열에 넣기
+	2. 그 배열에서 최댓값찾아서 위로 올리기
+	3. 전체 flip
+	4. 제일 아래-- 에서 최댓값찾아서 위로 올리기
+	5. 전체 flip ->반복
+	*/
+
+	FILE* INPUT = fopen(fileName, "r");
+	int num, cnt = 0;
+	int pancake[30], save[30];
+	fseek(INPUT, 0, SEEK_SET); //커서를 제일 처음으로	
+
+	if (INPUT == NULL)
+	{
+		printf("file is null");
+		return 1;
+	}
+
+	else {
+
+		while (fscanf(INPUT, "%d", &num) != EOF)
+		{
+			pancake[cnt] = num;
+			save[cnt] = num;
+			cnt++; //pancake에 숫자 담기. 일단 한줄만.
+		}
+
+		pancakeSorting(pancake, cnt);
+		printResult(pancake, save, cnt);
+
+	}
+
+	fclose(INPUT);
+}
+
+void flip(int* pancake, int ind) //flip pancake
+{
+
+	int swap, id = ind;
+	for (int i = 0; i < --ind; i++)
+	{
+		swap = pancake[i];
+		pancake[i] = pancake[ind];
+		pancake[ind] = swap;
+	}
+
+	flipCnt[flipIndex] = id;
+	flipIndex++;
+}
+
+int findMax(int* pancake, int ind)
+{
+	int max = pancake[0];
+	int max_ind = 0;
+
+	for (int i = 1; i < ind; i++)
+	{
+		if (pancake[i] > max)
+		{
+			max = pancake[i];
+			max_ind = i;
+		}
+	}
+	return max_ind;
+}
+//0에서 ind까지 최댓값찾기
+
+int sortedPancake(int* pancake, int ind)
+{
+	int flag = 0;
+	for (int i = 0; i < ind - 1; i++)
+	{
+		if (pancake[i] > pancake[i + 1])
+		{
+			flag = 0;
+			return 1;
+		}
+		else
+			flag = 1;
+	}
+	if (flag == 1)
+	{
+		fileFlag = 1;
+		return 0; //정렬끝났을때
+	}
+}
+//0부터 ind까지 정렬됐는지 확인
+
+void pancakeSorting(int* pancake, int index)
+{
+	while (sortedPancake(pancake, index) != 0) { //최댓값을 처음으로 보내고 반복
+		int max_ind;
+		max_ind = findMax(pancake, index);
+
+		if (max_ind != 0) //최댓값이 제일 위가 아닐때 -> 최댓값 제일 위로 보내는 flip진행
+			flip(pancake, max_ind);
+
+		else //최댓값이 제일 위에 올라가 있을때 -> 전체 flip
+		{
+			flip(pancake, index);
+			index--; //전체를 뒤집었으니 index개수를 줄여서 다시 진행
+		}
+	}
+}
+
+void printResult(int* pancake, int* save, int ind)
+{
+
+	for (int i = 0; i < ind; i++)
+	{
+		printf("%d ", save[i]);
+
+	}
+
+	printf("->(");
+	for (int i = 0; i < ind; i++)
+	{
+		printf("%d", pancake[i]);
+	}
+	printf(")");
+
+	puts("");
+	for (int i = 0; i < flipIndex; i++)
+		printf("%d ", abs(flipCnt[i] - (ind + 1)));
+
+	if(fileFlag==1)
+	printf("0"); //finish 
+}
